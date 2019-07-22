@@ -264,6 +264,10 @@ if [ "$NONROOT" = "yes" ]; then
   exitOnError $? "Cannot add 'user nonrootuser' to $TARGET_PATH/config.ovpn"
 fi
 # Note: TUN device re-opening will restart the container due to permissions
+if [ "$PORT_FORWARDING" == "true" ]; then
+  echo "script-security 2" >> "$TARGET_PATH/config.ovpn"
+  echo "route-up /pf_wrapper.sh" >> "$TARGET_PATH/config.ovpn"
+fi
 printf "DONE\n"
 
 ############################################
@@ -405,14 +409,6 @@ if [ "$PORT_FORWARDING" == "true" ]; then
       head -n 100 /dev/urandom | sha256sum | tr -d " -" > /client_id
     fi
   fi
-fi
-
-############################################
-# READ FORWARDED PORT
-############################################
-
-if [ "$PORT_FORWARDING" == "true" ]; then
-  sleep 10 && /portforward.sh &
 fi
 
 ############################################

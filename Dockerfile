@@ -67,9 +67,9 @@ RUN apk add -q --progress --no-cache --update openvpn wget ca-certificates iptab
     rm -f /tmp/*
 COPY unbound.conf /etc/unbound/unbound.conf
 COPY tinyproxy.conf /etc/tinyproxy/tinyproxy.conf
-COPY entrypoint.sh healthcheck.sh portforward.sh /
+COPY entrypoint.sh healthcheck.sh portforward.sh pf_wrapper.sh /
 RUN chown nonrootuser -R /etc/unbound /etc/tinyproxy && \
     chmod 700 /etc/unbound /etc/tinyproxy && \
     chmod 600 /etc/unbound/unbound.conf /etc/tinyproxy/tinyproxy.conf && \
-    chmod 500 /entrypoint.sh /healthcheck.sh /portforward.sh && \
+    chmod 500 /entrypoint.sh /healthcheck.sh /portforward.sh /pf_wrapper.sh && \
     chmod 400 /etc/unbound/root.hints /etc/unbound/root.key /etc/unbound/*.bz2
