@@ -393,6 +393,20 @@ if [ "$PROXY" == "on" ]; then
   printf "DONE\n"
 fi
 
+################################################
+# CHECK FOR PORTFORWARDING ENABLE AND CLIENT ID
+################################################
+
+if [ "$PORT_FORWARDING" == "true" ]; then
+  if [ "$PF_KEEPCLIENTID" = "no" ]; then
+    rm /client_id
+  else
+    if [ ! -f /client_id ]; then
+      head -n 100 /dev/urandom | sha256sum | tr -d " -" > /client_id
+    fi
+  fi
+fi
+
 ############################################
 # READ FORWARDED PORT
 ############################################

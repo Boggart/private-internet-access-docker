@@ -12,8 +12,15 @@ exitOnError(){
 }
 
 printf "[INFO] Reading forwarded port\n"
-client_id=`head -n 100 /dev/urandom | sha256sum | tr -d " -"`
-exitOnError $? "Unable to generate Client ID"
+if [ -f /client_id ]; then
+  printf "[INFO] Using the stored Client ID.\n"
+  client_id=$(cat /client_id)
+  exitOnError $? "Unable to get Client ID"
+else
+  printf "[INFO] Using a temporary Client ID.\n"
+  client_id=`head -n 100 /dev/urandom | sha256sum | tr -d " -"`
+  exitOnError $? "Unable to generate Client ID"
+fi
 json=`wget -qO- "http://209.222.18.222:2000/?client_id=$client_id"`
 if [ "$json" == "" ]; then
   printf " * Port forwarding is already activated on this connection, has expired, or you are not connected to a PIA region that supports port forwarding\n"

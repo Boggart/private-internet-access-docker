@@ -31,6 +31,7 @@ ENV USER= \
     UNBLOCK= \
     EXTRA_SUBNETS= \
     PORT_FORWARDING=false \
+	PF_KEEPCLIENTID=no \
     PROXY=on \
     PROXY_LOG_LEVEL=Critical \
     PROXY_PORT=8888 \
